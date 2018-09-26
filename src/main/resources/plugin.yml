@@ -1,0 +1,18 @@
+name: Graylist
+main: de.bootko.graylist.Main
+version: 1.2
+author: Zethrus
+
+commands:
+    graylist:
+      description: Command for managing Graylist.
+      aliases: [glist, greylist]
+      permission: graylist.admin
+
+permissions:
+    graylist.*:
+        description: Grants full administrative capabilities.
+        default: op
+        children:
+            graylist.bypass: true
+            graylist.admin: true
