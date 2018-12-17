@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
@@ -27,6 +28,7 @@ public class Main
     List<String> glist;
     List<String> opq;
 
+    @Override
     public void onEnable()
     {
         getConfig().options().copyDefaults(true);
@@ -42,6 +44,7 @@ public class Main
         this.pm.registerEvents(this.jl, this);
         this.pm.registerEvents(this.cl, this);
         this.pm.registerEvents(this.cmdl, this);
+        getCommand("sendwelcome").setExecutor(new Email(this));
 
         this.logger.info("Graylist has been enabled.");
     }
@@ -149,6 +152,7 @@ public class Main
         {
             this.glist.add(op.getUniqueId().toString());
             saveToConfig("graylist", this.glist);
+
             if (getServer().getOnlinePlayers().contains(op))
             {
                 Player p = getServer().getPlayer(pname);

@@ -4,3 +4,9 @@ command: "NULL"
 message: "You are not graylisted. To become a member, please apply on our website!"
 graylist: []
 offlinePlayerQueue: []
+email:
+  api_key: ""
+  sendfrom: ""
+  replyto: ""
+  name: ""
+  groupId: 0000
