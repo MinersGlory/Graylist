@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import de.bootko.graylist.de.bootko.graylist.commands.EmailCmd;
+import de.bootko.graylist.de.bootko.graylist.commands.GraylistCmd;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
@@ -21,8 +23,8 @@ public class Graylist extends JavaPlugin {
     JoinListener jl;
     ChatListener cl;
     CommandListener cmdl;
-    List<String> glist;
-    List<String> opq;
+    public List<String> glist;
+    public List<String> opq;
 
     @Override
     public void onEnable() {
@@ -42,7 +44,8 @@ public class Graylist extends JavaPlugin {
         this.pm.registerEvents(this.jl, this);
         this.pm.registerEvents(this.cl, this);
         this.pm.registerEvents(this.cmdl, this);
-        getCommand("sendwelcome").setExecutor(new Email(this));
+        getCommand("graylist").setExecutor(new GraylistCmd(this));
+        getCommand("sendwelcome").setExecutor(new EmailCmd(this));
 
         this.logger.info("Graylist has been enabled.");
     }
@@ -52,95 +55,12 @@ public class Graylist extends JavaPlugin {
         this.logger.info("Graylist has been disabled.");
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
-        if (cmd.getName().equalsIgnoreCase("graylist")) {
-            if (args.length == 0)
-            {
-                sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Possible arguments: add, remove, gamemode, command, message, list, version, reload");
-            }
-            else if ((args[0].equalsIgnoreCase("add")) && (args.length > 1))
-            {
-                if (listPlayer(args[1])) {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + args[1] + " has been added to the graylist.");
-                } else {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + args[1] + " is already on the graylist.");
-                }
-            }
-            else if ((args[0].equalsIgnoreCase("remove")) && (args.length > 1))
-            {
-                if (unlistPlayer(args[1])) {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + args[1] + " has been removed from the graylist.");
-                } else {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + args[1] + " is not on the graylist.");
-                }
-            }
-            else if ((args[0].equalsIgnoreCase("gamemode")) && (args.length > 1) && ((args[1].equalsIgnoreCase("survival")) || (args[1].equalsIgnoreCase("creative")) || (args[1].equalsIgnoreCase("adventure"))))
-            {
-                saveToConfig("gamemode", args[1]);
-                sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "The default gamemode for graylisted players has been set to " + args[1] + ".");
-            }
-            else if ((args[0].equalsIgnoreCase("command")) && (args.length > 1))
-            {
-                saveToConfig("command", args[1]);
-                sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "The command has been set to /" + args[1] + ".");
-            }
-            else
-            {
-                int i;
-                if ((args[0].equalsIgnoreCase("message")) && (args.length > 1))
-                {
-                    StringBuilder sb = new StringBuilder();
-                    for (i = 1; i < args.length; i++) {
-                        if (i != args.length - 1) {
-                            sb.append(args[i] + " ");
-                        } else {
-                            sb.append(args[i]);
-                        }
-                    }
-                    String message = sb.toString();
 
-                    saveToConfig("message", message);
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "The message has been set to " + "\"" + message + "\"");
-                }
-                else if (args[0].equalsIgnoreCase("list"))
-                {
-                    StringBuilder sb = new StringBuilder();
-
-                    sb.append(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Graylisted players:\n");
-                    for (String u : this.glist) {
-                        sb.append(ChatColor.GREEN + "- " + getServer().getOfflinePlayer(UUID.fromString(u)).getName() + "\n");
-                    }
-                    sender.sendMessage(sb.toString());
-                }
-                else if (args[0].equalsIgnoreCase("version"))
-                {
-                    this.logger.info(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "This server is powered by Graylist 1.0.");
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "This server is powered by Graylist 1.0.");
-                }
-                else if (args[0].equalsIgnoreCase("reload"))
-                {
-                    getConfig().options().copyDefaults(true);
-                    saveConfig();
-
-                    loadLists();
-
-                    this.logger.info(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + "Graylist has been reloaded!");
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Graylist has been reloaded!");
-                }
-                else
-                {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "Invalid arguments!");
-                }
-            }
-        }
-        return false;
-    }
 
     public void loadLists()
     {
-        this.glist = getConfig().getStringList("graylist");
-        this.opq = getConfig().getStringList("offlinePlayerQueue");
+        glist = getConfig().getStringList("graylist");
+        opq = getConfig().getStringList("offlinePlayerQueue");
     }
 
     public boolean listPlayer(String pname)

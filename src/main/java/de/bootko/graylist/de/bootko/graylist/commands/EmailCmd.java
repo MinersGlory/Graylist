@@ -1,9 +1,10 @@
-package de.bootko.graylist;
+package de.bootko.graylist.de.bootko.graylist.commands;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
+import de.bootko.graylist.Graylist;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,11 +15,11 @@ import java.io.IOException;
 
 import static de.bootko.graylist.Graylist.getPlugin;
 
-public class Email implements CommandExecutor {
+public class EmailCmd implements CommandExecutor {
 
     private final Graylist plugin;
 
-    public Email (Graylist plugin) {
+    public EmailCmd(Graylist plugin) {
         this.plugin = plugin;
     }
 
@@ -38,7 +39,7 @@ public class Email implements CommandExecutor {
                     String username = args[1];
 
                     if (args.length != 2) {
-                        sender.sendMessage(ChatColor.RED + "Usage: /greylist sendwelcome <email> <username>");
+                        sender.sendMessage(ChatColor.RED + "Usage: /graylist sendwelcome <email> <username>");
                 } else {
                         if (args.length == 2) {
                             if (sender.hasPermission("graylist.email")){
