@@ -16,3 +16,4 @@ permissions:
         children:
             graylist.bypass: true
             graylist.admin: true
+            greylist.email: true
