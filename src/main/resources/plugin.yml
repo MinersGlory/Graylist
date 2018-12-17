@@ -1,5 +1,5 @@
 name: Graylist
-main: de.bootko.graylist.Main
+main: de.bootko.graylist.Graylist
 version: 1.2.1
 author: Zethrus
 

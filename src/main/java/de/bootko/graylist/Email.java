@@ -12,20 +12,25 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 
-public class Email implements CommandExecutor {
-    Main plugin;
+import static de.bootko.graylist.Graylist.getPlugin;
 
-    public Email (Main instance) {
-        plugin = instance;
+public class Email implements CommandExecutor {
+
+    private final Graylist plugin;
+
+    public Email (Graylist plugin) {
+        this.plugin = plugin;
     }
 
-    String api_key = plugin.getConfig().getString("email.api_key");
-    String sendfrom = plugin.getConfig().getString("email.sendfrom");
-    String replyto = plugin.getConfig().getString("email.replyto");
-    String name = plugin.getConfig().getString("email.name");
-    Integer groupId = plugin.getConfig().getInt("email.groupId");
+
+    String api_key = getPlugin().getConfig().getString("email.api_key");
+    String sendfrom = getPlugin().getConfig().getString("email.sendfrom");
+    String replyto = getPlugin().getConfig().getString("email.replyto");
+    String name = getPlugin().getConfig().getString("email.name");
+    Integer groupId = getPlugin().getConfig().getInt("email.groupId");
 
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
             if (cmd.getName().equalsIgnoreCase("sendwelcome")) {
                 if (sender instanceof Player) {

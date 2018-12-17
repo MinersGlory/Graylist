@@ -1,6 +1,5 @@
 package de.bootko.graylist;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -8,18 +7,15 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main
-        extends JavaPlugin
-{
+public class Graylist extends JavaPlugin {
+    private static Graylist instance;
+
     public final Logger logger = Logger.getLogger("Minecraft");
     private PluginManager pm;
     JoinListener jl;
@@ -29,8 +25,10 @@ public class Main
     List<String> opq;
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
+
+        instance = this;
+
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -208,5 +206,9 @@ public class Main
     {
         getConfig().set(key, s);
         saveConfig();
+    }
+
+    public static Graylist getPlugin() {
+        return instance;
     }
 }

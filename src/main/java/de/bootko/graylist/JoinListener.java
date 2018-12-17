@@ -1,11 +1,7 @@
 package de.bootko.graylist;
 
-import java.util.List;
-import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -13,9 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class JoinListener
         implements Listener
 {
-    private Main plugin;
+    private Graylist plugin;
 
-    public JoinListener(Main plugin)
+    public JoinListener(Graylist plugin)
     {
         this.plugin = plugin;
     }
