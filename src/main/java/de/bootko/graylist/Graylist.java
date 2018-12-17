@@ -27,6 +27,9 @@ public class Graylist extends JavaPlugin {
     public List<String> glist;
     public List<String> opq;
 
+    // String to easily grab plugin version
+    String pluginVersion = this.getDescription().getVersion();
+
     @Override
     public void onEnable() {
 
@@ -48,14 +51,13 @@ public class Graylist extends JavaPlugin {
 
         PluginCommand baseCommand = getCommand("graylist");
         baseCommand.setExecutor(new GraylistCmd(this));
-        baseCommand.setExecutor(new EmailCmd(this));
 
-        this.logger.info("Graylist has been enabled.");
+        this.logger.info("Graylist " + pluginVersion + " has been enabled.");
     }
 
     public void onDisable()
     {
-        this.logger.info("Graylist has been disabled.");
+        this.logger.info("Graylist " + pluginVersion + " has been disabled.");
     }
 
 
