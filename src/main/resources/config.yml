@@ -5,8 +5,8 @@ message: "You are not graylisted. To become a member, please apply on our websit
 graylist: []
 offlinePlayerQueue: []
 email:
-  api_key: ""
-  sendfrom: ""
-  replyto: ""
-  name: ""
+  api_key: "yourkey"
+  sendfrom: "email@domain.com"
+  replyto: "email@domain.com"
+  name: "sendername"
   groupId: 0000

@@ -8,6 +8,9 @@ commands:
       description: Command for managing Graylist.
       aliases: [glist, greylist]
       permission: graylist.admin
+    sendwelcome:
+      description: Command to send out welcome email.
+      permission: graylist.email
 
 permissions:
     graylist.*:
