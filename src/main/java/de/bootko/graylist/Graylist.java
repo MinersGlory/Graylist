@@ -11,6 +11,7 @@ import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,8 +45,10 @@ public class Graylist extends JavaPlugin {
         this.pm.registerEvents(this.jl, this);
         this.pm.registerEvents(this.cl, this);
         this.pm.registerEvents(this.cmdl, this);
-        getCommand("graylist").setExecutor(new GraylistCmd(this));
-        getCommand("sendwelcome").setExecutor(new EmailCmd(this));
+
+        PluginCommand baseCommand = getCommand("graylist");
+        baseCommand.setExecutor(new GraylistCmd(this));
+        baseCommand.setExecutor(new EmailCmd(this));
 
         this.logger.info("Graylist has been enabled.");
     }
