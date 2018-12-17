@@ -1,6 +1,6 @@
 name: Graylist
 main: de.bootko.graylist.Graylist
-version: 1.2.1
+version: 1.2.2
 author: Zethrus
 
 commands:
@@ -8,9 +8,6 @@ commands:
       description: Root command to manage
       aliases: [glist, graylist]
       permission: graylist.admin
-    sendwelcome:
-      description: Command to send out welcome email
-      permission: graylist.email
 
 permissions:
     graylist.*:
