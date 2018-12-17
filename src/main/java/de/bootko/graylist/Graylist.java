@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import de.bootko.graylist.de.bootko.graylist.commands.EmailCmd;
 import de.bootko.graylist.de.bootko.graylist.commands.GraylistCmd;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -42,7 +41,6 @@ public class Graylist extends JavaPlugin {
 
         this.jl = new JoinListener(this);
         this.cl = new ChatListener(this);
-        this.cmdl = new CommandListener(this);
 
         this.pm = getServer().getPluginManager();
         this.pm.registerEvents(this.jl, this);
@@ -55,6 +53,7 @@ public class Graylist extends JavaPlugin {
         this.logger.info("Graylist " + pluginVersion + " has been enabled.");
     }
 
+    @Override
     public void onDisable()
     {
         this.logger.info("Graylist " + pluginVersion + " has been disabled.");
