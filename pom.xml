@@ -6,7 +6,7 @@
 
     <groupId>de.bootko</groupId>
     <artifactId>Graylist</artifactId>
-    <version>1.2-REL</version>
+    <version>1.2.1</version>
 
     <repositories>
         <repository>
