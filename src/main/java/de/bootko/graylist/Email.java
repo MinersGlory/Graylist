@@ -36,7 +36,7 @@ public class Email implements CommandExecutor {
                         sender.sendMessage(ChatColor.RED + "Usage: /greylist sendwelcome <email> <username>");
                 } else {
                         if (args.length == 2) {
-                            if (sender.hasPermission("greylist.email")){
+                            if (sender.hasPermission("graylist.email")){
                                 try {
                                     SendGrid sg = new SendGrid(System.getenv(api_key));
                                     Request request = new Request();

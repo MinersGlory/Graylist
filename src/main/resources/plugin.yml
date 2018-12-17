@@ -5,18 +5,18 @@ author: Zethrus
 
 commands:
     graylist:
-      description: Command for managing Graylist.
-      aliases: [glist, greylist]
+      description: Root command to manage
+      aliases: [glist, graylist]
       permission: graylist.admin
     sendwelcome:
-      description: Command to send out welcome email.
+      description: Command to send out welcome email
       permission: graylist.email
 
 permissions:
     graylist.*:
-        description: Grants full administrative capabilities.
+        description: Grants full abilities to manage the graylist
         default: op
         children:
             graylist.bypass: true
             graylist.admin: true
-            greylist.email: true
+            graylist.email: true
