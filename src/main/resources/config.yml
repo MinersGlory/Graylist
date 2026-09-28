@@ -1,12 +1,32 @@
-# This is the config file for Graylist.
-gamemode: "survival"
+# Graylist configuration - whitelabel defaults
+# Unapproved players can join, but are locked to ADVENTURE mode and cannot use commands
+# until an admin adds them with /graylist add <name>
+gamemode: "adventure"
 command: "NULL"
-message: "You are not graylisted. To become a member, please apply on our website!"
+message: "You are not approved yet. Please apply or ask a staff member to get whitelisted!"
 graylist: []
 offlinePlayerQueue: []
+gated:
+  # Commands unapproved players may still use while gated (e.g. help)
+  allowed-commands: []
 email:
-  api_key: "yourkey"
-  sendfrom: "email@domain.com"
-  replyto: "email@domain.com"
-  name: "sendername"
-  groupId: 0000
+  enabled: false
+  provider: smtp
+  from: "no-reply@example.com"
+  fromName: "Your Server"
+  replyTo: "no-reply@example.com"
+  serverName: "Your Server"
+  websiteLink: "https://example.com"
+  supportEmail: "support@example.com"
+  smtp:
+    host: "localhost"
+    port: 587
+    user: ""
+    password: ""
+    starttls: true
+    ssl: false
+  sendgrid:
+    apiKey: ""
+  mailgun:
+    apiKey: ""
+    domain: ""

@@ -2,45 +2,35 @@ package de.bootko.graylist;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class JoinListener
-        implements Listener
-{
-    private Graylist plugin;
+public class JoinListener implements Listener {
+    private final Graylist plugin;
 
-    public JoinListener(Graylist plugin)
-    {
+    public JoinListener(Graylist plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void join(PlayerJoinEvent event)
-    {
-        if (this.plugin.opq.contains(event.getPlayer().getUniqueId().toString()))
-        {
-            if (!event.getPlayer().hasPermission("graylist.bypass"))
-            {
-                if (this.plugin.getConfig().getString("command") != "NULL") {
-                    event.getPlayer().performCommand(this.plugin.getConfig().getString("command"));
-                }
-                if (this.plugin.getConfig().getString("gamemode").equalsIgnoreCase("survival")) {
-                    event.getPlayer().setGameMode(GameMode.SURVIVAL);
-                } else if (this.plugin.getConfig().getString("gamemode").equalsIgnoreCase("creative")) {
-                    event.getPlayer().setGameMode(GameMode.CREATIVE);
-                } else if (this.plugin.getConfig().getString("gamemode").equalsIgnoreCase("adventure")) {
-                    event.getPlayer().setGameMode(GameMode.ADVENTURE);
-                }
+    public void join(PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        String uid = p.getUniqueId().toString();
+
+        if (this.plugin.opq.contains(uid)) {
+            if (!p.hasPermission("graylist.bypass")) {
+                this.plugin.applyGateMode(p);
             }
-            this.plugin.opq.remove(event.getPlayer().getUniqueId().toString());
+            this.plugin.opq.remove(uid);
             this.plugin.saveToConfig("offlinePlayerQueue", this.plugin.opq);
         }
-        if ((!this.plugin.glist.contains(event.getPlayer().getUniqueId().toString())) && (!event.getPlayer().hasPermission("graylist.bypass")))
-        {
-            event.getPlayer().setGameMode(GameMode.ADVENTURE);
-            event.getPlayer().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + this.plugin.getConfig().getString("message"));
+
+        if (!this.plugin.isApproved(p)) {
+            p.setGameMode(GameMode.ADVENTURE);
+            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Graylist" + ChatColor.DARK_GRAY + "] "
+                    + ChatColor.RED + this.plugin.getConfig().getString("message"));
         }
     }
 }
